@@ -1,12 +1,19 @@
 import { useState } from 'react';
+import { MAX_CHARACTERS } from '../lib/constants';
 
 type FeedbackFormProps = {};
 
 const FeedbackForm = ({}: FeedbackFormProps) => {
   const [text, setText] = useState('');
+  const charRemaining: number = MAX_CHARACTERS - text.length;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.currentTarget.value);
+    const {
+      target: { value },
+    } = e;
+    if (value.length > MAX_CHARACTERS) return;
+
+    setText(value);
   };
 
   return (
@@ -22,7 +29,7 @@ const FeedbackForm = ({}: FeedbackFormProps) => {
         Enter your feedback here. Remember to #hashtag the company.
       </label>
       <div>
-        <p className='u-italic'>150</p>
+        <p className='u-italic'>{charRemaining}</p>
         <button type='submit' className=''>
           <span>Submit</span>
         </button>
