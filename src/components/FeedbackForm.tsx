@@ -11,6 +11,7 @@ const FeedbackForm = ({}: FeedbackFormProps) => {
     const {
       target: { value },
     } = e;
+
     if (value.length > MAX_CHARACTERS) return;
 
     setText(value);
