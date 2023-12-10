@@ -3,9 +3,11 @@ import { MAX_CHARACTERS } from '../lib/constants';
 
 type FeedbackItem = {
   upvoteCount: number;
-  companyName: string;
+  company: string;
+  badgeLetter: string;
   text: string;
   daysAgo: number;
+  id: number;
 };
 
 type FeedbackItemProps = {
@@ -13,7 +15,7 @@ type FeedbackItemProps = {
 };
 
 const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
-  const capitalLetter = feedbackItem.companyName.charAt(0).toUpperCase();
+  const capitalLetter = feedbackItem.company.charAt(0).toUpperCase();
 
   return (
     <li className='feedback'>
@@ -27,7 +29,7 @@ const FeedbackItem = ({ feedbackItem }: FeedbackItemProps) => {
       </div>
 
       <div>
-        <p>{feedbackItem.companyName}</p>
+        <p>{feedbackItem.company}</p>
         <p>{feedbackItem.text.slice(0, MAX_CHARACTERS)}</p>
       </div>
       <p>{feedbackItem.daysAgo}d</p>
