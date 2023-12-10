@@ -1,13 +1,13 @@
 const Footer = () => {
   return (
-    <footer>
+    <footer className='footer'>
       <small>
         <p>
           &copy; Copyright{' '}
           <a href='https://bytegrad.com' target='_blank'>
-            ByteGrad
+            ByteGrad.com
           </a>{' '}
-          {new Date().getFullYear()}
+          {new Date().getFullYear()} Intended for learning or your portfolio.
         </p>
         <p>
           <span className='u-bold u-italic'>

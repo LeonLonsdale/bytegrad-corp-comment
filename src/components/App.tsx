@@ -4,11 +4,11 @@ import MainContainer from './MainContainer';
 
 const App = () => {
   return (
-    <>
+    <div className='app'>
       <Footer />
       <MainContainer />
       <HashtagList />
-    </>
+    </div>
   );
 };
 
