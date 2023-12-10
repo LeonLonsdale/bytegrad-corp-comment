@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { MAX_CHARACTERS } from '../lib/constants';
+import { findHash } from '../lib/util';
 
-type FeedbackFormProps = {};
+type FeedbackFormProps = {
+  onAddToList: (text: string) => void;
+};
 
-const FeedbackForm = ({}: FeedbackFormProps) => {
+const FeedbackForm = ({ onAddToList }: FeedbackFormProps) => {
   const [text, setText] = useState('');
   const charRemaining: number = MAX_CHARACTERS - text.length;
 
@@ -17,8 +20,15 @@ const FeedbackForm = ({}: FeedbackFormProps) => {
     setText(value);
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!findHash(text)) return;
+    onAddToList(text);
+    setText('');
+  };
+
   return (
-    <form className='form' onSubmit={() => {}}>
+    <form className='form' onSubmit={handleSubmit}>
       <textarea
         id='feedback-textarea'
         placeholder='placeholder'

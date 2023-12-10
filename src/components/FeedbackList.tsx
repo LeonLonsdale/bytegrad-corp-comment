@@ -1,37 +1,19 @@
-import { useEffect, useState } from 'react';
 import FeedbackItem from './FeedbackItem';
 import Spinner from './Spinner';
 import ErrorMessage from './ErrorMessage';
-import { type TFeedbackItem } from '../lib/types';
-import { FEEDBACK_API_URL } from '../lib/constants';
+import { TFeedbackItem } from '../lib/types';
 
-type FeedbackListProps = {};
+type FeedbackListProps = {
+  feedbackItems: TFeedbackItem[];
+  isLoading: boolean;
+  errorMessage: string;
+};
 
-const FeedbackList = ({}: FeedbackListProps) => {
-  const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(FEEDBACK_API_URL);
-        const data = await response.json();
-
-        if (!response.ok)
-          throw new Error(`Something went wrong (${response.status})`);
-
-        setFeedbackItems(data.feedbacks);
-      } catch (error) {
-        if (error instanceof Error) setErrorMessage(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
+const FeedbackList = ({
+  feedbackItems,
+  isLoading,
+  errorMessage,
+}: FeedbackListProps) => {
   return (
     <ol className='feedback-list'>
       {isLoading && <Spinner />}
