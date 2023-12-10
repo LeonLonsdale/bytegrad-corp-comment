@@ -4,11 +4,16 @@ import HashtagList from './HashtagList';
 import MainContainer from './layout/MainContainer';
 import { TFeedbackItem } from '../lib/types';
 import { FEEDBACK_API_URL } from '../lib/constants';
+import { getUniques } from '../lib/util';
 
 const App = () => {
   const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const companyList = feedbackItems
+    .map((feedbackItem) => feedbackItem.company)
+    .filter(getUniques);
 
   const handleAddToList = async (text: string) => {
     const company = text
@@ -66,7 +71,7 @@ const App = () => {
         errorMessage={errorMessage}
         handleAddToList={handleAddToList}
       />
-      <HashtagList />
+      <HashtagList companyList={companyList} />
     </div>
   );
 };

@@ -1,20 +1,15 @@
-type HashtagListProps = {};
+type HashtagListProps = {
+  companyList: string[];
+};
 
-const HashtagList = ({}: HashtagListProps) => {
+const HashtagList = ({ companyList }: HashtagListProps) => {
   return (
     <ul className='hashtags'>
-      <li>
-        <button>#Facebook</button>
-      </li>
-      <li>
-        <button>#Nike</button>
-      </li>
-      <li>
-        <button>#ByteGrad</button>
-      </li>
-      <li>
-        <button>#Adidas</button>
-      </li>
+      {companyList.map((company) => (
+        <li key={company}>
+          <button>#{company}</button>
+        </li>
+      ))}
     </ul>
   );
 };
