@@ -3,6 +3,7 @@ import FeedbackItem from './FeedbackItem';
 import Spinner from './Spinner';
 import ErrorMessage from './ErrorMessage';
 import { type TFeedbackItem } from '../lib/types';
+import { FEEDBACK_API_URL } from '../lib/constants';
 
 type FeedbackListProps = {};
 
@@ -15,9 +16,7 @@ const FeedbackList = ({}: FeedbackListProps) => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(
-          'https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks',
-        );
+        const response = await fetch(FEEDBACK_API_URL);
         const data = await response.json();
 
         if (!response.ok)
