@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import FeedbackItem from './FeedbackItem';
+import Spinner from './Spinner';
 
 type FeedbackListProps = {};
 
@@ -27,6 +28,7 @@ const FeedbackList = ({}: FeedbackListProps) => {
 
   return (
     <ol className='feedback-list'>
+      {isLoading && <Spinner />}
       {feedbackItems.map((feedbackItem) => (
         <FeedbackItem key={feedbackItem.id} feedbackItem={feedbackItem} />
       ))}
