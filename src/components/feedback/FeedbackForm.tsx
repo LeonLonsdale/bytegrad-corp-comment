@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { MAX_CHARACTERS } from '../lib/constants';
-import { findHash } from '../lib/util';
+import { MAX_CHARACTERS } from '../../lib/constants';
+import { findHash } from '../../lib/util';
 
 type FeedbackFormProps = {
   onAddToList: (text: string) => void;

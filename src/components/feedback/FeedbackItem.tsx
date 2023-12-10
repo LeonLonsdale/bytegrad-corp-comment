@@ -1,6 +1,6 @@
 import { TriangleUpIcon } from '@radix-ui/react-icons';
-import { MAX_CHARACTERS } from '../lib/constants';
-import { TFeedbackItem } from '../lib/types';
+import { MAX_CHARACTERS } from '../../lib/constants';
+import { TFeedbackItem } from '../../lib/types';
 
 type FeedbackItemProps = {
   feedbackItem: TFeedbackItem;

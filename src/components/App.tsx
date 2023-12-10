@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Footer from './Footer';
+import Footer from './layout/Footer';
 import HashtagList from './HashtagList';
-import MainContainer from './MainContainer';
+import MainContainer from './layout/MainContainer';
 import { TFeedbackItem } from '../lib/types';
 import { FEEDBACK_API_URL } from '../lib/constants';
 
@@ -27,7 +27,7 @@ const App = () => {
 
     setFeedbackItems((curItems) => [...curItems, newItem]);
 
-    const response = await fetch(FEEDBACK_API_URL, {
+    await fetch(FEEDBACK_API_URL, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
