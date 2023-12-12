@@ -1,15 +1,19 @@
-import { useFeedbackItemsContext } from '../../context/FeedbackItemsContext';
+import { useFeedbackItemsStore } from '../stores/feedbackItemsStore';
 import HashtagItem from './HashtagItem';
 
 const HashtagList = () => {
-  const { companyList, handleSelectCompany } = useFeedbackItemsContext();
+  const getCompanyList = useFeedbackItemsStore((state) =>
+    state.getCompanyList(),
+  );
+  const selectCompany = useFeedbackItemsStore((state) => state.selectCompany);
+
   return (
     <ul className='hashtags'>
-      {companyList.map((company) => (
+      {getCompanyList.map((company) => (
         <HashtagItem
           key={company}
           company={company}
-          onSelectCompany={handleSelectCompany}
+          onSelectCompany={selectCompany}
         />
       ))}
     </ul>
