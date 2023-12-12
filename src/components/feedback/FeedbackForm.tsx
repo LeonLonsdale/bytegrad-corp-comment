@@ -8,6 +8,8 @@ type FeedbackFormProps = {
 
 const FeedbackForm = ({ onAddToList }: FeedbackFormProps) => {
   const [text, setText] = useState('');
+  const [showIsValid, setShowIsValid] = useState<boolean>();
+  const [showIsNotValid, setShowIsNotValid] = useState<boolean>();
   const charRemaining: number = MAX_CHARACTERS - text.length;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -22,13 +24,26 @@ const FeedbackForm = ({ onAddToList }: FeedbackFormProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!findString(text, '#')) return;
+
+    if (!findString(text, '#') || text.length < 5) {
+      setShowIsNotValid(true);
+      setTimeout(() => setShowIsNotValid(false), 2000);
+      return;
+    }
+
+    setShowIsValid(true);
+    setTimeout(() => setShowIsValid(false), 2000);
     onAddToList(text);
     setText('');
   };
 
   return (
-    <form className='form' onSubmit={handleSubmit}>
+    <form
+      className={`form ${showIsValid ? 'form--valid' : ''} ${
+        showIsNotValid ? 'form--invalid' : ''
+      }`}
+      onSubmit={handleSubmit}
+    >
       <textarea
         id='feedback-textarea'
         placeholder='placeholder'
