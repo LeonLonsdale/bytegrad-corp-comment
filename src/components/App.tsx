@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Footer from './layout/Footer';
 import HashtagList from './hashtags/HashtagList';
 import MainContainer from './layout/MainContainer';
@@ -12,15 +12,43 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedCompany, setSelectedCompany] = useState('');
 
-  const filteredFeedbackItems = selectedCompany
-    ? feedbackItems.filter(
-        (feedbackItem) => feedbackItem.company === selectedCompany,
-      )
-    : feedbackItems;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(FEEDBACK_API_URL);
+        const data = await response.json();
 
-  const companyList = feedbackItems
-    .map((feedbackItem) => feedbackItem.company)
-    .filter(getUniquesFromArray);
+        if (!response.ok)
+          throw new Error(`Something went wrong (${response.status})`);
+
+        setFeedbackItems(data.feedbacks);
+      } catch (error) {
+        if (error instanceof Error) setErrorMessage(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const filteredFeedbackItems = useMemo(
+    () =>
+      selectedCompany
+        ? feedbackItems.filter(
+            (feedbackItem) => feedbackItem.company === selectedCompany,
+          )
+        : feedbackItems,
+    [feedbackItems, selectedCompany],
+  );
+
+  const companyList = useMemo(
+    () =>
+      feedbackItems
+        .map((feedbackItem) => feedbackItem.company)
+        .filter(getUniquesFromArray),
+    [feedbackItems],
+  );
 
   const handleAddToList = async (text: string) => {
     const company = text
@@ -50,28 +78,6 @@ const App = () => {
   };
 
   const handleSelectCompany = (company: string) => setSelectedCompany(company);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log('fetching data');
-      try {
-        setIsLoading(true);
-        const response = await fetch(FEEDBACK_API_URL);
-        const data = await response.json();
-        console.log(data);
-
-        if (!response.ok)
-          throw new Error(`Something went wrong (${response.status})`);
-
-        setFeedbackItems(data.feedbacks);
-      } catch (error) {
-        if (error instanceof Error) setErrorMessage(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
 
   return (
     <div className='app'>
