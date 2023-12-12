@@ -1,97 +1,16 @@
-import { useEffect, useMemo, useState } from 'react';
 import Footer from './layout/Footer';
 import HashtagList from './hashtags/HashtagList';
 import MainContainer from './layout/MainContainer';
-import { TFeedbackItem } from '../lib/types';
-import { FEEDBACK_API_URL } from '../lib/constants';
-import { getUniquesFromArray } from '../lib/util';
+import { FeedbackItemsContextProvider } from '../context/FeedbackItemsContext';
 
 const App = () => {
-  const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [selectedCompany, setSelectedCompany] = useState('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(FEEDBACK_API_URL);
-        const data = await response.json();
-
-        if (!response.ok)
-          throw new Error(`Something went wrong (${response.status})`);
-
-        setFeedbackItems(data.feedbacks);
-      } catch (error) {
-        if (error instanceof Error) setErrorMessage(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const filteredFeedbackItems = useMemo(
-    () =>
-      selectedCompany
-        ? feedbackItems.filter(
-            (feedbackItem) => feedbackItem.company === selectedCompany,
-          )
-        : feedbackItems,
-    [feedbackItems, selectedCompany],
-  );
-
-  const companyList = useMemo(
-    () =>
-      feedbackItems
-        .map((feedbackItem) => feedbackItem.company)
-        .filter(getUniquesFromArray),
-    [feedbackItems],
-  );
-
-  const handleAddToList = async (text: string) => {
-    const company = text
-      .split(' ')
-      .find((word: string) => word.includes('#'))!
-      .substring(1);
-
-    const newItem: TFeedbackItem = {
-      upvoteCount: 0,
-      company,
-      badgeLetter: company.charAt(0).toUpperCase(),
-      text: text,
-      daysAgo: 0,
-      id: new Date().getTime(),
-    };
-
-    setFeedbackItems((curItems) => [...curItems, newItem]);
-
-    await fetch(FEEDBACK_API_URL, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newItem),
-    });
-  };
-
-  const handleSelectCompany = (company: string) => setSelectedCompany(company);
-
   return (
     <div className='app'>
       <Footer />
-      <MainContainer
-        feedbackItems={filteredFeedbackItems}
-        isLoading={isLoading}
-        errorMessage={errorMessage}
-        handleAddToList={handleAddToList}
-      />
-      <HashtagList
-        companyList={companyList}
-        handleSelectedCompany={handleSelectCompany}
-      />
+      <FeedbackItemsContextProvider>
+        <MainContainer />
+        <HashtagList />
+      </FeedbackItemsContextProvider>
     </div>
   );
 };
