@@ -2,7 +2,7 @@ import Footer from './layout/Footer';
 import HashtagList from './hashtags/HashtagList';
 import MainContainer from './layout/MainContainer';
 import { useEffect } from 'react';
-import { useFeedbackItemsStore } from './stores/feedbackItemsStore';
+import { useFeedbackItemsStore } from '../stores/feedbackItemsStore';
 
 const App = () => {
   const fetchFeedbackItems = useFeedbackItemsStore(

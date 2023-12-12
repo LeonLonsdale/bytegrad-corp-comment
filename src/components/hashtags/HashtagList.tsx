@@ -1,4 +1,4 @@
-import { useFeedbackItemsStore } from '../stores/feedbackItemsStore';
+import { useFeedbackItemsStore } from '../../stores/feedbackItemsStore';
 import HashtagItem from './HashtagItem';
 
 const HashtagList = () => {

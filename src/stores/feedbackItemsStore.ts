@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { TFeedbackItem } from '../../lib/types';
-import { FEEDBACK_API_URL } from '../../lib/constants';
-import { getUniquesFromArray } from '../../lib/util';
+import { TFeedbackItem } from '../lib/types';
+import { FEEDBACK_API_URL } from '../lib/constants';
+import { getUniquesFromArray } from '../lib/util';
 
 type Store = {
   feedbackItems: TFeedbackItem[];
