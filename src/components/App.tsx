@@ -4,7 +4,7 @@ import HashtagList from './hashtags/HashtagList';
 import MainContainer from './layout/MainContainer';
 import { TFeedbackItem } from '../lib/types';
 import { FEEDBACK_API_URL } from '../lib/constants';
-import { getUniques } from '../lib/util';
+import { getUniquesFromArray } from '../lib/util';
 
 const App = () => {
   const [feedbackItems, setFeedbackItems] = useState<TFeedbackItem[]>([]);
@@ -20,7 +20,7 @@ const App = () => {
 
   const companyList = feedbackItems
     .map((feedbackItem) => feedbackItem.company)
-    .filter(getUniques);
+    .filter(getUniquesFromArray);
 
   const handleAddToList = async (text: string) => {
     const company = text
@@ -53,10 +53,12 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('fetching data');
       try {
         setIsLoading(true);
         const response = await fetch(FEEDBACK_API_URL);
         const data = await response.json();
+        console.log(data);
 
         if (!response.ok)
           throw new Error(`Something went wrong (${response.status})`);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MAX_CHARACTERS } from '../../lib/constants';
-import { findHash } from '../../lib/util';
+import { findString } from '../../lib/util';
 
 type FeedbackFormProps = {
   onAddToList: (text: string) => void;
@@ -22,7 +22,7 @@ const FeedbackForm = ({ onAddToList }: FeedbackFormProps) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!findHash(text)) return;
+    if (!findString(text, '#')) return;
     onAddToList(text);
     setText('');
   };
